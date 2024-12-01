@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyMate Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="nav-bar">
+        <h2>StudyMate</h2>
+        <div class="nav-item" onclick="showSection('dashboard')">Dashboard</div>
+        <div class="nav-item" onclick="showSection('tasks')">Tasks</div>
+        <div class="nav-item" onclick="showSection('documents')">Documents</div>
+        <div class="nav-item" onclick="showSection('calendar')">Calendar</div>
+        <div class="nav-item" onclick="showSection('settings')">Settings</div>
+        <div class="nav-item" onclick="showSection('chatbot')">Chat with StudyBot</div>
+        <div class="nav-item" onclick="showSection('goals')">Goals</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section active">
+            <h3>Welcome to StudyMate!</h3>
+            <div class="dashboard-grid">
+                <!-- Progress Chart -->
+                <div class="progress-chart">
+                    <canvas id="progressChart"></canvas>
+                </div>
+                <!-- Task List -->
+                <div class="task-list">
+                    <h4>Upcoming Tasks</h4>
+                    <div class="task-item">Submit Assignment 3 - Due Tomorrow</div>
+                    <div class="task-item">Study for Math Exam - Due in 2 Days</div>
+                    <div class="task-item">Group Project Meeting - Due in 3 Days</div>
+                </div>
+            </div>
+            <!-- Reminders Section -->
+            <div id="reminders">
+                <h4>Reminders:</h4>
+                <ul id="reminder-list"></ul>
+            </div>
+            <!-- Calendar for Dashboard -->
+            <div id="dashboard-calendar" class="calendar-container"></div>
+        </div>
+
+        <!-- Calendar Section -->
+        <div id="calendar" class="section hidden">
+            <h3>Calendar</h3>
+            <div id="calendar-tab" class="calendar-container"></div>
+        </div>
+
+
+<!-- Tasks Section -->
+<div id="tasks" class="section hidden">
+    <h3>Tasks</h3>
+    <div class="task-controls">
+        <input type="text" id="new-task-input" placeholder="Enter a new task..." />
+        <input type="date" id="new-task-deadline" />
+        <select id="new-task-priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+        <button onclick="addTask()">Add Task</button>
+    </div>
+    <div id="current-tasks-container">
+        <h4>Current Tasks</h4>
+        <ul id="current-task-list"></ul>
+    </div>
+    <div id="upcoming-tasks-container">
+        <h4>Upcoming Tasks</h4>
+        <ul id="upcoming-task-list"></ul>
+    </div>
+</div>
+
+
+        <!-- Documents Section -->
+        <div id="documents" class="section hidden">
+            <h3>Manage Your Documents</h3>
+            <div class="file-upload-container">
+                <input type="file" id="file-upload" multiple />
+                <button onclick="uploadFiles()">Upload</button>
+            </div>
+            <div id="file-list" class="file-list">
+                <h4>Uploaded Documents:</h4>
+                <ul></ul>
+            </div>
+        </div>
+
+        <!-- Goals Section -->
+        <div id="goals" class="section hidden">
+            <h3>Your Study Goals</h3>
+            <div class="progress-container">
+                <div id="goal-progress" class="progress-bar"></div>
+            </div>
+            <div id="goal-list" class="goal-list"></div>
+            <div class="goal-input-container">
+                <input type="text" id="goal-input" placeholder="Add a new goal..." />
+                <button onclick="addGoal()">Add Goal</button>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings" class="section hidden">
+            <h3>Settings</h3>
+            <p>Update your preferences here.</p>
+            <button id="darkModeToggle" class="theme-toggle">Toggle Dark Mode</button>
+            <!-- Language Selection -->
+            <div class="language-container">
+                <label for="language-select">Select Language:</label>
+                <select id="language-select" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Chatbot Section -->
+        <div id="chatbot" class="section hidden">
+            <h3>Chat with StudyBot</h3>
+            <div class="chatbot-container">
+                <div id="chat-display" class="chat-display"></div>
+                <div class="chat-input-container">
+                    <input type="text" id="user-input" class="chat-input" placeholder="Type your message..." />
+                    <button onclick="sendMessage()" class="chat-send-button">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Date Modal -->
+    <div id="date-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="modal-close">&times;</span>
+            <h3 id="modal-title"></h3>
+            <ul id="modal-events"></ul>
+            <input type="text" id="add-event-input" placeholder="Add a new event..." />
+            <button id="add-event-btn">Add Event</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,625 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f9;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Sidebar Navigation */
+.nav-bar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.nav-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+    margin: 5px 10px;
+}
+
+.nav-item:hover {
+    background-color: #1abc9c;
+    color: white;
+}
+
+/* Main Content */
+.main {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+}
+
+.progress-chart {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.task-list .task-item {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Calendar Styling */
+.calendar-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+.calendar-day {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.calendar-day:hover {
+    background-color: #1abc9c;
+    color: white;
+    cursor: pointer;
+}
+
+.calendar-day.empty {
+    background-color: transparent;
+    pointer-events: none;
+}
+
+.event-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: #1abc9c;
+    border-radius: 50%;
+    margin: 5px auto 0;
+}
+
+/* Section Visibility */
+.section {
+    display: none;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Active Section */
+.section.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #1e272e;
+    color: #dcdde1;
+}
+
+body.dark-mode .nav-bar {
+    background-color: #34495e;
+    color: #dcdde1;
+}
+
+body.dark-mode .nav-item {
+    color: #dcdde1;
+}
+
+body.dark-mode .nav-item:hover {
+    background-color: #1abc9c;
+    color: white;
+}
+
+body.dark-mode .main {
+    background-color: #2f3640;
+    color: #dcdde1;
+}
+
+body.dark-mode .progress-chart {
+    background-color: #34495e;
+    color: #dcdde1;
+    border-color: #1abc9c;
+}
+
+body.dark-mode .task-item {
+    background-color: #34495e;
+    color: #dcdde1;
+}
+
+body.dark-mode .calendar-container {
+    background-color: #2f3640;
+    color: #dcdde1;
+}
+
+body.dark-mode .calendar-day {
+    background-color: #34495e;
+    color: #dcdde1;
+}
+
+body.dark-mode .calendar-day:hover {
+    background-color: #1abc9c;
+    color: white;
+}
+
+body.dark-mode .modal-content {
+    background-color: #2f3640;
+    color: #dcdde1;
+}
+
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close {
+    float: right;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#modal-events {
+    margin-top: 10px;
+    list-style-type: none;
+    padding: 0;
+}
+
+#add-event-input {
+    width: calc(100% - 20px);
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#add-event-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.progress-chart {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.edit-event-btn, .delete-event-btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+.edit-event-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.delete-event-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.edit-event-btn:hover {
+    background-color: #2980b9;
+}
+
+.delete-event-btn:hover {
+    background-color: #c0392b;
+}
+
+.goal-list {
+    margin-top: 20px;
+}
+
+.goal-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.goal-item input {
+    margin-right: 10px;
+}
+
+.goal-item .completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    margin: 10px 0 20px;
+    overflow: hidden;
+    height: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #1abc9c;
+    transition: width 0.3s ease;
+}
+
+/* Goal List */
+.goal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Goal Card */
+.goal-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.goal-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.goal-card.completed {
+    background-color: #d4edda;
+    border-color: #28a745;
+}
+
+.goal-card .goal-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    flex-grow: 1;
+}
+
+.goal-card.completed .goal-text {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+.goal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.goal-actions button {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.goal-actions button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.goal-actions button:active {
+    background-color: #0056b3;
+    color: white;
+}
+
+.file-upload-container {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.file-list {
+    margin-top: 20px;
+}
+
+.file-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.file-list li {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-list button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.file-list button:hover {
+    background-color: #c0392b;
+}
+
+#reminders {
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#reminders h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#reminders ul {
+    list-style: none;
+    padding: 0;
+}
+
+#reminders li {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+.language-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.language-container label {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+#language-select {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+/* Chatbot Section Styles */
+.chatbot-container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.chat-display {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-display .chat-bubble {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.chat-display .chat-bubble.user {
+    background-color: #1abc9c;
+    color: white;
+    margin-left: auto;
+    text-align: right;
+}
+
+.chat-display .chat-bubble.bot {
+    background-color: #ecf0f1;
+    color: #333;
+    text-align: left;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 16px;
+    outline: none;
+    resize: none;
+    transition: box-shadow 0.2s ease;
+}
+
+.chat-input:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #007bff;
+}
+
+.chat-send-button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chat-send-button:hover {
+    background-color: #16a085;
+}
+
+.chat-send-button:active {
+    background-color: #148f77;
+}
+
+/* Task Page Styles */
+.task-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.task-controls input, .task-controls select, .task-controls button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.task-controls button {
+    background-color: #1abc9c;
+    color: white;
+    cursor: pointer;
+}
+
+.task-controls button:hover {
+    background-color: #16a085;
+}
+
+#current-task-list, #upcoming-task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.task-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    transition: box-shadow 0.2s ease;
+}
+
+.task-item:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-item.completed {
+    background-color: #d4edda;
+    border-color: #28a745;
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+.task-actions button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.task-actions button:hover {
+    background-color: #2980b9;
+}
+
+.priority-low {
+    color: #28a745;
+}
+
+.priority-medium {
+    color: #ffc107;
+}
+
+.priority-high {
+    color: #dc3545;
+}
