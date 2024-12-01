@@ -3,7 +3,6 @@ const calendarEvents = {
     "2024-12-01": ["Project Due"],
     "2024-12-03": ["Math Exam", "Team Meeting"],
     "2024-11-30": ["Complete Project Draft", "Prepare Presentation"],
-
 };
 
 // Generate Calendar
@@ -55,6 +54,7 @@ function generateCalendar(containerId) {
 
 const goals = [];
 
+// Add a new goal
 function addGoal() {
     const goalInput = document.getElementById('goal-input').value.trim();
     if (!goalInput) return;
@@ -64,21 +64,38 @@ function addGoal() {
     renderGoals();
 }
 
+// Toggle goal completion
 function toggleGoalCompletion(index) {
     goals[index].completed = !goals[index].completed;
     renderGoals();
 }
 
+// Delete a goal
+function deleteGoal(index) {
+    goals.splice(index, 1);
+    renderGoals();
+}
+
+// Render the goals and update progress
 function renderGoals() {
     const goalList = document.getElementById('goal-list');
+    const completedGoals = goals.filter(goal => goal.completed).length;
+    const totalGoals = goals.length;
+    const progressPercentage = totalGoals === 0 ? 0 : Math.round((completedGoals / totalGoals) * 100);
+
+    // Update progress bar
+    document.getElementById('goal-progress').style.width = `${progressPercentage}%`;
+
+    // Render goal cards
     goalList.innerHTML = goals
         .map(
             (goal, index) => `
-            <div class="goal-item">
-                <input type="checkbox" onclick="toggleGoalCompletion(${index})" ${
-                goal.completed ? 'checked' : ''
-            }>
-                <span class="${goal.completed ? 'completed' : ''}">${goal.text}</span>
+            <div class="goal-card ${goal.completed ? 'completed' : ''}">
+                <div class="goal-text">${goal.text}</div>
+                <div class="goal-actions">
+                    <button onclick="toggleGoalCompletion(${index})">${goal.completed ? 'Mark Incomplete' : 'Mark Complete'}</button>
+                    <button onclick="deleteGoal(${index})">Delete</button>
+                </div>
             </div>
         `
         )
@@ -94,7 +111,6 @@ function toggleDarkMode() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
 });
-
 
 // Function to toggle between sections
 function showSection(sectionId) {
@@ -115,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showSection('dashboard');
 });
 
+// Initialize Progress Chart
 function initializeProgressChart() {
     const ctx = document.getElementById('progressChart').getContext('2d');
     new Chart(ctx, {
@@ -145,7 +162,6 @@ function initializeProgressChart() {
 document.addEventListener('DOMContentLoaded', () => {
     initializeProgressChart();
 });
-
 
 // Placeholder StudyBot responses
 function getBotResponse(input) {
@@ -198,7 +214,6 @@ function sendMessage() {
     }, 1000); // Simulated delay
 }
 
-
 // Function to open the event details modal
 function openDateDetails(date) {
     const modal = document.getElementById('date-modal');
@@ -222,7 +237,7 @@ function openDateDetails(date) {
 
     modal.style.display = 'block';
 
-    // Handle addiang a new event
+    // Handle adding a new event
     document.getElementById('add-event-btn').onclick = () => {
         const newEvent = addEventInput.value.trim();
         if (newEvent) {
@@ -274,97 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
     generateCalendar('calendar-tab');
 });
 
-// Add a new goal
-function addGoal() {
-    const goalInput = document.getElementById('goal-input').value.trim();
-    if (!goalInput) return;
-
-    goals.push({ text: goalInput, completed: false });
-    document.getElementById('goal-input').value = '';
-    renderGoals();
-}
-
-// Toggle goal completion
-function toggleGoalCompletion(index) {
-    goals[index].completed = !goals[index].completed;
-    renderGoals();
-}
-
-// Delete a goal
-function deleteGoal(index) {
-    goals.splice(index, 1);
-    renderGoals();
-}
-
-// Render the goals and update progress
-function renderGoals() {
-    const goalList = document.getElementById('goal-list');
-    const completedGoals = goals.filter(goal => goal.completed).length;
-    const totalGoals = goals.length;
-    const progressPercentage = totalGoals === 0 ? 0 : Math.round((completedGoals / totalGoals) * 100);
-
-    // Update progress bar
-    document.getElementById('goal-progress').style.width = `${progressPercentage}%`;
-
-    // Render goal cards
-    goalList.innerHTML = goals
-        .map(
-            (goal, index) => `
-            <div class="goal-card ${goal.completed ? 'completed' : ''}">
-                <div class="goal-text">${goal.text}</div>
-                <div class="goal-actions">
-                    <button onclick="toggleGoalCompletion(${index})">${goal.completed ? 'Mark Incomplete' : 'Mark Complete'}</button>
-                    <button onclick="deleteGoal(${index})">Delete</button>
-                </div>
-            </div>
-        `
-        )
-        .join('');
-}
-
-// Initialize page with no goals
-document.addEventListener('DOMContentLoaded', () => {
-    renderGoals();
-});
-
-const uploadedFiles = [];
-
-function uploadFiles() {
-    const fileInput = document.getElementById('file-upload');
-    const files = Array.from(fileInput.files);
-
-    if (files.length === 0) {
-        alert("No files selected!");
-        return;
-    }
-
-    // Simulate file upload by adding to the `uploadedFiles` array
-    files.forEach(file => uploadedFiles.push(file.name));
-
-    // Clear file input and render the uploaded files
-fileInput.value = '';
-    renderFileList();
-}
-
-function renderFileList() {
-    const fileListContainer = document.querySelector('#file-list ul');
-    fileListContainer.innerHTML = uploadedFiles
-        .map(
-            (fileName, index) => `
-            <li>
-                ${fileName}
-                <button onclick="deleteFile(${index})">Delete</button>
-            </li>
-        `
-        )
-        .join('');
-}
-
-function deleteFile(index) {
-    uploadedFiles.splice(index, 1); // Remove the file from the array
-    renderFileList(); // Re-render the list
-}
-
 // Function to render reminders on the dashboard
 function renderReminders() {
     const reminderList = document.getElementById('reminder-list');
@@ -385,52 +309,96 @@ document.addEventListener('DOMContentLoaded', () => {
 // Translation data for supported languages
 const translations = {
     en: {
-        dashboard: "Welcome to StudyMate!",
-        tasks: "Tasks",
-        documents: "Manage Your Documents",
-        calendar: "Calendar",
-        settings: "Settings",
-        chatbot: "Chat with StudyBot",
-        reminders: "Reminders",
-        uploadButton: "Upload",
+        appTitle: "StudyMate",
+        navDashboard: "Dashboard",
+        navTasks: "Tasks",
+        navDocuments: "Documents",
+        navCalendar: "Calendar",
+        navSettings: "Settings",
+        navChatbot: "Chat with StudyBot",
+        navGoals: "Goals",
+        dashboardTitle: "Welcome to StudyMate!",
+        tasksTitle: "Tasks",
+        documentsTitle: "Manage Your Documents",
+        calendarTitle: "Calendar",
+        settingsTitle: "Settings",
+        settingsDescription: "Update your preferences here.",
+        languageLabel: "Select Language:",
+        chatbotTitle: "Chat with StudyBot",
+        goalsTitle: "Your Study Goals",
         toggleDarkMode: "Toggle Dark Mode",
-        addGoal: "Add Goal",
+        uploadButton: "Upload",
+        addGoalButton: "Add Goal",
+        remindersTitle: "Reminders:",
     },
     es: {
-        dashboard: "¡Bienvenido a StudyMate!",
-        tasks: "Tareas",
-        documents: "Gestiona tus Documentos",
-        calendar: "Calendario",
-        settings: "Configuración",
-        chatbot: "Habla con StudyBot",
-        reminders: "Recordatorios",
-        uploadButton: "Subir",
+        appTitle: "StudyMate",
+        navDashboard: "Tablero",
+        navTasks: "Tareas",
+        navDocuments: "Documentos",
+        navCalendar: "Calendario",
+        navSettings: "Configuración",
+        navChatbot: "Habla con StudyBot",
+        navGoals: "Metas",
+        dashboardTitle: "¡Bienvenido a StudyMate!",
+        tasksTitle: "Tareas",
+        documentsTitle: "Gestiona tus Documentos",
+        calendarTitle: "Calendario",
+        settingsTitle: "Configuración",
+        settingsDescription: "Actualiza tus preferencias aquí.",
+        languageLabel: "Selecciona Idioma:",
+        chatbotTitle: "Habla con StudyBot",
+        goalsTitle: "Tus Metas de Estudio",
         toggleDarkMode: "Cambiar Modo Oscuro",
-        addGoal: "Añadir Meta",
+        uploadButton: "Subir",
+        addGoalButton: "Añadir Meta",
+        remindersTitle: "Recordatorios:",
     },
     fr: {
-        dashboard: "Bienvenue sur StudyMate!",
-        tasks: "Tâches",
-        documents: "Gérez vos Documents",
-        calendar: "Calendrier",
-        settings: "Paramètres",
-        chatbot: "Discutez avec StudyBot",
-        reminders: "Rappels",
+        appTitle: "StudyMate",
+        navDashboard: "Tableau de Bord",
+        navTasks: "Tâches",
+        navDocuments: "Documents",
+        navCalendar: "Calendrier",
+        navSettings: "Paramètres",
+        navChatbot: "Parler à StudyBot",
+        navGoals: "Objectifs",
+        dashboardTitle: "Bienvenue sur StudyMate!",
+        tasksTitle: "Tâches",
+        documentsTitle: "Gérez vos Documents",
+        calendarTitle: "Calendrier",
+        settingsTitle: "Paramètres",
+        settingsDescription: "Mettez à jour vos préférences ici.",
+        languageLabel: "Choisir la langue:",
+        chatbotTitle: "Parler à StudyBot",
+        goalsTitle: "Vos Objectifs d'Étude",
+        toggleDarkMode: "Basculer en Mode Sombre",
         uploadButton: "Téléverser",
-        toggleDarkMode: "Activer le Mode Sombre",
-        addGoal: "Ajouter un Objectif",
+        addGoalButton: "Ajouter un Objectif",
+        remindersTitle: "Rappels:",
     },
     de: {
-        dashboard: "Willkommen bei StudyMate!",
-        tasks: "Aufgaben",
-        documents: "Verwalte deine Dokumente",
-        calendar: "Kalender",
-        settings: "Einstellungen",
-        chatbot: "Mit StudyBot chatten",
-        reminders: "Erinnerungen",
-        uploadButton: "Hochladen",
+        appTitle: "StudyMate",
+        navDashboard: "Übersicht",
+        navTasks: "Aufgaben",
+        navDocuments: "Dokumente",
+        navCalendar: "Kalender",
+        navSettings: "Einstellungen",
+        navChatbot: "Mit StudyBot chatten",
+        navGoals: "Ziele",
+        dashboardTitle: "Willkommen bei StudyMate!",
+        tasksTitle: "Aufgaben",
+        documentsTitle: "Verwalte deine Dokumente",
+        calendarTitle: "Kalender",
+        settingsTitle: "Einstellungen",
+        settingsDescription: "Aktualisieren Sie hier Ihre Einstellungen.",
+        languageLabel: "Sprache auswählen:",
+        chatbotTitle: "Mit StudyBot chatten",
+        goalsTitle: "Ihre Studienziele",
         toggleDarkMode: "Dunkelmodus Umschalten",
-        addGoal: "Ziel Hinzufügen",
+        uploadButton: "Hochladen",
+        addGoalButton: "Ziel Hinzufügen",
+        remindersTitle: "Erinnerungen:",
     },
 };
 
@@ -438,14 +406,25 @@ const translations = {
 function changeLanguage() {
     const selectedLanguage = document.getElementById("language-select").value;
     const elementsToTranslate = [
-        { id: "dashboard", key: "dashboard" },
-        { id: "tasks", key: "tasks" },
-        { id: "documents", key: "documents" },
-        { id: "calendar", key: "calendar" },
-        { id: "settings", key: "settings" },
-        { id: "chatbot", key: "chatbot" },
-        { id: "reminders", key: "reminders" },
-        { id: "addGoalButton", key: "addGoal" }, // Example for buttons
+        { id: "app-title", key: "appTitle" },
+        { id: "nav-dashboard", key: "navDashboard" },
+        { id: "nav-tasks", key: "navTasks" },
+        { id: "nav-documents", key: "navDocuments" },
+        { id: "nav-calendar", key: "navCalendar" },
+        { id: "nav-settings", key: "navSettings" },
+        { id: "nav-chatbot", key: "navChatbot" },
+        { id: "nav-goals", key: "navGoals" },
+        { id: "dashboard-title", key: "dashboardTitle" },
+        { id: "tasks-title", key: "tasksTitle" },
+        { id: "documents-title", key: "documentsTitle" },
+        { id: "calendar-title", key: "calendarTitle" },
+        { id: "settings-title", key: "settingsTitle" },
+        { id: "settings-description", key: "settingsDescription" },
+        { id: "language-label", key: "languageLabel" },
+        { id: "chatbot-title", key: "chatbotTitle" },
+        { id: "goals-title", key: "goalsTitle" },
+        { id: "darkModeToggle", key: "toggleDarkMode" },
+        { id: "reminders-title", key: "remindersTitle" },
     ];
 
     elementsToTranslate.forEach(({ id, key }) => {
@@ -461,9 +440,9 @@ function changeLanguage() {
         uploadButton.textContent = translations[selectedLanguage].uploadButton;
     }
 
-    const darkModeButton = document.getElementById("darkModeToggle");
-    if (darkModeButton) {
-        darkModeButton.textContent = translations[selectedLanguage].toggleDarkMode;
+    const addGoalButton = document.querySelector("button[onclick='addGoal()']");
+    if (addGoalButton) {
+        addGoalButton.textContent = translations[selectedLanguage].addGoalButton;
     }
 }
 
@@ -534,4 +513,40 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTasks();
 });
 
+const uploadedFiles = [];
 
+function uploadFiles() {
+    const fileInput = document.getElementById('file-upload');
+    const files = Array.from(fileInput.files);
+
+    if (files.length === 0) {
+        alert("No files selected!");
+        return;
+    }
+
+    // Simulate file upload by adding to the `uploadedFiles` array
+    files.forEach(file => uploadedFiles.push(file.name));
+
+    // Clear file input and render the uploaded files
+    fileInput.value = '';
+    renderFileList();
+}
+
+function renderFileList() {
+    const fileListContainer = document.querySelector('#file-list ul');
+    fileListContainer.innerHTML = uploadedFiles
+        .map(
+            (fileName, index) => `
+            <li>
+                ${fileName}
+                <button onclick="deleteFile(${index})">Delete</button>
+            </li>
+        `
+        )
+        .join('');
+}
+
+function deleteFile(index) {
+    uploadedFiles.splice(index, 1); // Remove the file from the array
+    renderFileList(); // Re-render the list
+}

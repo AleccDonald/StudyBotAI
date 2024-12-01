@@ -10,21 +10,21 @@
 <body>
     <!-- Sidebar Navigation -->
     <div class="nav-bar">
-        <h2>StudyMate</h2>
-        <div class="nav-item" onclick="showSection('dashboard')">Dashboard</div>
-        <div class="nav-item" onclick="showSection('tasks')">Tasks</div>
-        <div class="nav-item" onclick="showSection('documents')">Documents</div>
-        <div class="nav-item" onclick="showSection('calendar')">Calendar</div>
-        <div class="nav-item" onclick="showSection('settings')">Settings</div>
-        <div class="nav-item" onclick="showSection('chatbot')">Chat with StudyBot</div>
-        <div class="nav-item" onclick="showSection('goals')">Goals</div>
+        <h2 id="app-title">StudyMate</h2>
+        <div class="nav-item" id="nav-dashboard" onclick="showSection('dashboard')">Dashboard</div>
+        <div class="nav-item" id="nav-tasks" onclick="showSection('tasks')">Tasks</div>
+        <div class="nav-item" id="nav-documents" onclick="showSection('documents')">Documents</div>
+        <div class="nav-item" id="nav-calendar" onclick="showSection('calendar')">Calendar</div>
+        <div class="nav-item" id="nav-settings" onclick="showSection('settings')">Settings</div>
+        <div class="nav-item" id="nav-chatbot" onclick="showSection('chatbot')">Chat with StudyBot</div>
+        <div class="nav-item" id="nav-goals" onclick="showSection('goals')">Goals</div>
     </div>
 
     <!-- Main Content -->
     <div class="main">
         <!-- Dashboard Section -->
         <div id="dashboard" class="section active">
-            <h3>Welcome to StudyMate!</h3>
+            <h3 id="dashboard-title">Welcome to StudyMate!</h3>
             <div class="dashboard-grid">
                 <!-- Progress Chart -->
                 <div class="progress-chart">
@@ -40,7 +40,7 @@
             </div>
             <!-- Reminders Section -->
             <div id="reminders">
-                <h4>Reminders:</h4>
+                <h4 id="reminders-title">Reminders:</h4>
                 <ul id="reminder-list"></ul>
             </div>
             <!-- Calendar for Dashboard -->
@@ -49,38 +49,32 @@
 
         <!-- Calendar Section -->
         <div id="calendar" class="section hidden">
-            <h3>Calendar</h3>
+            <h3 id="calendar-title">Calendar</h3>
             <div id="calendar-tab" class="calendar-container"></div>
         </div>
 
-
-<!-- Tasks Section -->
-<div id="tasks" class="section hidden">
-    <h3>Tasks</h3>
-    <div class="task-controls">
-        <input type="text" id="new-task-input" placeholder="Enter a new task..." />
-        <input type="date" id="new-task-deadline" />
-        <select id="new-task-priority">
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-        </select>
-        <button onclick="addTask()">Add Task</button>
-    </div>
-    <div id="current-tasks-container">
-        <h4>Current Tasks</h4>
-        <ul id="current-task-list"></ul>
-    </div>
-    <div id="upcoming-tasks-container">
-        <h4>Upcoming Tasks</h4>
-        <ul id="upcoming-task-list"></ul>
-    </div>
-</div>
-
+        <!-- Tasks Section -->
+        <div id="tasks" class="section hidden">
+            <h3 id="tasks-title">Tasks</h3>
+            <div class="task-controls">
+                <input type="text" id="new-task-input" placeholder="Enter a new task..." />
+                <input type="date" id="new-task-deadline" />
+                <select id="new-task-priority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <button onclick="addTask()">Add Task</button>
+            </div>
+            <div id="task-list-container">
+                <h4>Tasks</h4>
+                <ul id="task-list"></ul>
+            </div>
+        </div>
 
         <!-- Documents Section -->
         <div id="documents" class="section hidden">
-            <h3>Manage Your Documents</h3>
+            <h3 id="documents-title">Manage Your Documents</h3>
             <div class="file-upload-container">
                 <input type="file" id="file-upload" multiple />
                 <button onclick="uploadFiles()">Upload</button>
@@ -93,7 +87,7 @@
 
         <!-- Goals Section -->
         <div id="goals" class="section hidden">
-            <h3>Your Study Goals</h3>
+            <h3 id="goals-title">Your Study Goals</h3>
             <div class="progress-container">
                 <div id="goal-progress" class="progress-bar"></div>
             </div>
@@ -106,12 +100,12 @@
 
         <!-- Settings Section -->
         <div id="settings" class="section hidden">
-            <h3>Settings</h3>
-            <p>Update your preferences here.</p>
+            <h3 id="settings-title">Settings</h3>
+            <p id="settings-description">Update your preferences here.</p>
             <button id="darkModeToggle" class="theme-toggle">Toggle Dark Mode</button>
             <!-- Language Selection -->
             <div class="language-container">
-                <label for="language-select">Select Language:</label>
+                <label for="language-select" id="language-label">Select Language:</label>
                 <select id="language-select" onchange="changeLanguage()">
                     <option value="en">English</option>
                     <option value="es">Español</option>
@@ -123,7 +117,7 @@
 
         <!-- Chatbot Section -->
         <div id="chatbot" class="section hidden">
-            <h3>Chat with StudyBot</h3>
+            <h3 id="chatbot-title">Chat with StudyBot</h3>
             <div class="chatbot-container">
                 <div id="chat-display" class="chat-display"></div>
                 <div class="chat-input-container">
